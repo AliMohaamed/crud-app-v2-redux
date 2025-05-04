@@ -1,0 +1,22 @@
+:root {
+  --primary-color: #0C4B30;
+  --secondary-color: #00331D;
+  --accent-color: #f72585;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    padding: 1rem 0;
+  }
+
+  .navbar-nav .nav-link::after {
+    left: 0;
+    right: 0;
+  }
+
+  .btn-custom {
+    margin-top: 0.5rem;
+  }
+}
