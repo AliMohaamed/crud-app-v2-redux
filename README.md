@@ -12,10 +12,10 @@ You can **Add, Edit, View, and Delete products** through a simple user interface
 ✅ Add a new product  
 ✅ Edit existing products  
 ✅ Delete products  
-✅ Connected to a mock REST API using json-server
+✅ State management with **Redux Toolkit**  
+✅ Connected to a mock REST API using **json-server**
 
 ---
-
 
 ---
 
@@ -44,3 +44,4 @@ npx json-server --watch db.json --port 3001
 
 npm start
 
+```

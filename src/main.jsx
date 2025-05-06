@@ -5,4 +5,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./index.css";
 import "./layout/Mainlayout";
 import { Mainlayout } from "./layout/Mainlayout";
-createRoot(document.getElementById("root")).render(<Mainlayout />);
+import { Provider } from "react-redux";
+// import { store } from "./redux";
+import { store } from "./store";
+createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <Mainlayout />
+  </Provider>
+);

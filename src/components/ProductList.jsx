@@ -1,36 +1,26 @@
 import { Eye, SquarePen, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Loading, Error } from "../components";
-import { deleteProduct, getAllProducts } from "../API/productAPI";
+// import { deleteProduct, getAllProducts } from "../API/productAPI";
 import "./ProductList.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteProductAction,
+  getAllProductsAction,
+} from "../store/productSlice";
 
 export function ProductList() {
-  const [products, setProducts] = useState([]);
-  const [errors, setErrors] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
-
+  // const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+  const { products, isLoading, errors } = useSelector(
+    (store) => store.productSlice
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
-    setIsLoading(true);
-    getAllProducts()
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => setErrors(error))
-      .finally(() => setIsLoading(false));
+    dispatch(getAllProductsAction());
   }, []);
-
   const deleteHandler = (productId) => {
-    deleteProduct(productId)
-      .then(() => {
-        setProducts(products.filter((product) => product.id !== productId));
-        setDeleteConfirmId(null);
-      })
-      .catch((err) => {
-        console.log("err", err);
-        setDeleteConfirmId(null);
-      });
+    dispatch(deleteProductAction(productId));
   };
 
   const formatPrice = (price) => {
@@ -78,7 +68,9 @@ export function ProductList() {
             <div className="card h-100 shadow-sm hover-shadow">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-start mb-3">
-                  <h5 className="card-title text-primary mb-0">{product.name}</h5>
+                  <h5 className="card-title text-primary mb-0">
+                    {product.name}
+                  </h5>
                   <span className="badge bg-secondary">ID: {product.id}</span>
                 </div>
                 <p className="card-text h4 text-success mb-4">
@@ -102,7 +94,7 @@ export function ProductList() {
                   <button
                     className="btn btn-outline-danger btn-sm"
                     title="Delete Product"
-                    onClick={() => setDeleteConfirmId(product.id)}
+                    onClick={() => deleteHandler(product.id)}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -111,7 +103,7 @@ export function ProductList() {
             </div>
 
             {/* Delete Confirmation Modal */}
-            {deleteConfirmId === product.id && (
+            {/* {deleteConfirmId === product.id && (
               <div className="modal fade show" style={{ display: "block" }}>
                 <div className="modal-dialog">
                   <div className="modal-content">
@@ -148,7 +140,7 @@ export function ProductList() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         ))}
       </div>

@@ -7,8 +7,10 @@ import {
   NavbarToggler,
 } from "../styledComponent/Navbar.styled";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export function Navbar() {
+  const { count } = useSelector((store) => store.myCounterSlice);
   return (
     <>
       <div>
@@ -66,9 +68,7 @@ export function Navbar() {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="contact">
-                    Contact
-                  </NavLink>
+                  <NavLink className="nav-link">Cart({count})</NavLink>
                 </li>
               </NavbarNav>
               {/* Right Side Items */}

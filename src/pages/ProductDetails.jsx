@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { SharedCard } from "../shared/SharedCard";
-import { useFetch } from "../custom-hooks/useFetch";
-import { getProductById } from "../API/productAPI";
 import { Error, Loading } from "../components";
 import { ArrowLeft } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export function ProductDetails() {
   const { id } = useParams();
-  const { data: product, isLoading, errors } = useFetch(getProductById, id);
+  const { products, isLoading, errors } = useSelector(
+    (store) => store.productSlice
+  );
+  const [product, setProduct] = useState({});
+  useEffect(() => {
+    setProduct(products.find((item) => item.id == id));
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -60,7 +64,9 @@ export function ProductDetails() {
                   <div className="d-flex justify-content-center align-items-center h-100">
                     <div className="text-center">
                       <div className="mb-3">
-                        <span className="badge bg-info p-2">Product Details</span>
+                        <span className="badge bg-info p-2">
+                          Product Details
+                        </span>
                       </div>
                       <p className="text-muted">
                         View and manage your product information

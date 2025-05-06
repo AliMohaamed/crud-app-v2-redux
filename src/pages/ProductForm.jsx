@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { SharedCard } from "../shared/SharedCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../styledComponent/Button";
-import { addNewProduct, editProduct, getProductById } from "../API/productAPI";
+import { getProductById } from "../API/productAPI";
+import { useDispatch } from "react-redux";
+import { addProductAction, editProductAction } from "../store/productSlice";
 
 export function ProductForm() {
   const navigate = useNavigate();
   const { id } = useParams();
-
+  const dispatch = useDispatch();
   const [formValues, setFormValues] = useState({
     name: "",
     price: "",
@@ -25,15 +27,11 @@ export function ProductForm() {
   const submitHandler = (e) => {
     e.preventDefault();
     if (id == 0) {
-      addNewProduct(formValues).then(() => {
-        navigate("/products");
-      });
+      dispatch(addProductAction(formValues));
+      navigate("/products");
     } else {
-      editProduct(id, formValues)
-        .then(() => {
-          navigate("/products");
-        })
-        .catch((error) => console.log(error));
+      dispatch(editProductAction({ id, formValues }));
+      navigate("/products");
     }
   };
 
